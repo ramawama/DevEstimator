@@ -4,4 +4,4 @@ Simply download developer-estimator_1.0.0_x64-setup.exe and get started! Package
 
 ## Details
 
-Created using svelte-kit and tauri for use at UFIT to estimate developer times. Intutitive and easily modifiable.
+Created using SvelteKit and Tauri for use at UFIT to estimate developer times. Intutitive and easily modifiable.
