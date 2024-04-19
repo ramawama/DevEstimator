@@ -1,11 +1,12 @@
 <script lang="ts">
   import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell } from 'flowbite-svelte';
   import { table } from "../stores";
-  import { GradientButton  } from 'flowbite-svelte';
+  import { GradientButton, Alert } from 'flowbite-svelte';
   import { MinusOutline, PlusOutline, PenOutline } from 'flowbite-svelte-icons';
 	import { get } from 'svelte/store';
 
   let columns = ["Type", "Action", "Name", "Amount", "Complexity", "Hours"]
+  let canAddRow = true; // Control whether a new row can be added
 
 
   function remove(key){
@@ -21,6 +22,17 @@
       let keys = Array.from(tableValue.keys());
       let tempKey = "";
       let keyCounter = 0;
+
+      let values = Array.from(tableValue.values());
+      canAddRow = true;
+      values.forEach(element => {
+        if (element[0] === "Select") {
+          canAddRow = false;
+          console.log("Must edit new row first before adding more");
+        }
+      });
+      if (!canAddRow) return;
+
       do {
           keyCounter++;
           tempKey = "Row" + keyCounter;
@@ -69,8 +81,18 @@
               </TableBodyRow>
               {/each}
               <TableBodyRow>
-                  <GradientButton on:click={add} outline color="purpleToPink" pill><PlusOutline size="sm"/></GradientButton>
+                <GradientButton on:click={add} outline color="purpleToPink" pill disabled={!canAddRow}>
+                  <PlusOutline size="sm"/>
+                </GradientButton>
               </TableBodyRow>
           </TableBody>
+          <tfoot>
+            {#if !canAddRow}
+            <Alert>
+              <span class="font-medium">Please edit row first!</span>
+            </Alert>
+            {/if}
+          </tfoot>
       </Table>
+
  </div> 
