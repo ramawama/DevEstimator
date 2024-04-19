@@ -37,6 +37,8 @@
     }
 
     function updateValue(index, newValue) {
+        if (newValue < 0) newValue = 0;
+        else if (newValue > 999) newValue = 999;
         inputVal[index] = newValue;
         inputVal = inputVal.slice(); // Create a new array to trigger reactivity
     }
@@ -81,7 +83,7 @@
                     </TableBodyCell>
                     {#each value as text, index (index)}
                     <TableBodyCell>
-                        <Input type="number" value={inputVal[index]} on:input={e => updateValue(index, e.target.value)} size="sm" />
+                        <Input type="number" value={inputVal[index]} on:input={e => updateValue(index, e.target.value)} max="999" min="0" size="sm" />
                     </TableBodyCell>
                     {/each}
                     <TableBodyCell>
